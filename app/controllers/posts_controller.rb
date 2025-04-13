@@ -1,6 +1,8 @@
 class PostsController < ApplicationController
   before_action :set_post, only: %i[ show edit update destroy ]
 
+  allow_unauthenticated_access only: %i[ index show ]
+
   # GET /posts or /posts.json
   def index
     @posts = Post.all
@@ -22,6 +24,7 @@ class PostsController < ApplicationController
   # POST /posts or /posts.json
   def create
     @post = Post.new(post_params)
+    @post.user_id = Current.user.id
 
     respond_to do |format|
       if @post.save
@@ -63,8 +66,13 @@ class PostsController < ApplicationController
       @post = Post.find(params.expect(:id))
     end
 
+    # def set_post_by_slug
+    #   @post = Post.find_by!(slug: params.expect(:slug))
+    # end
+
+
     # Only allow a list of trusted parameters through.
     def post_params
-      params.expect(post: [ :title, :body, :slug, :status, :user_id, :published_at, :reading_time, :summary ])
+      params.expect(post: [ :title, :body, :slug, :status, :published_at, :summary ])
     end
 end
