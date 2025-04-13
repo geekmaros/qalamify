@@ -1,6 +1,8 @@
 class Post < ApplicationRecord
   belongs_to :user
   before_validation :set_reading_time
+  extend FriendlyId
+  friendly_id :title, use: :slugged
 
 
   enum :status, { draft: 0, published: 1, archived: 2 }

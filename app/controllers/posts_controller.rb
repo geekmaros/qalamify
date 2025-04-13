@@ -63,7 +63,7 @@ class PostsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_post
-      @post = Post.find(params.expect(:id))
+      @post = Post.friendly.find(params.expect(:id))
     end
 
     # def set_post_by_slug
@@ -73,6 +73,6 @@ class PostsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def post_params
-      params.expect(post: [ :title, :body, :slug, :status, :published_at, :summary ])
+      params.expect(post: [ :title, :body, :status, :published_at, :summary ])
     end
 end
